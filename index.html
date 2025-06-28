@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Closet Cue - Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEchxPv2sx_Ou9rgZGC63cNjy71fGEm4M",
+      authDomain: "closetcue.firebaseapp.com",
+      projectId: "closetcue",
+      storageBucket: "closetcue.appspot.com",
+      messagingSenderId: "580306676777",
+      appId: "1:580306676777:web:a27b271200f3bd78f5c038"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h1>Closet Cue 👗👖</h1>
+  <div class="form">
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Sign Up</button>
+  </div>
+
+  <script>
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        alert("Please enter email and password");
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Login successful!");
+          window.location.href = "wardrobe.html";
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+        });
+    }
+
+    function signup() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        alert("Please enter email and password");
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Signup successful! Please login now.");
+        })
+        .catch(error => {
+          alert("Signup failed: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
+</div>

@@ -1,0 +1,130 @@
+<nav id="topNav">
+  <div class="nav-container">
+    <div class="logo">Closet Cue</div>
+    <ul class="nav-links">
+      <li><a href="wardrobe.html">Wardrobe</a></li>
+      <li><a href="feed.html">Feed</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="post.html">Post</a></li>
+      <li><a href="#" id="logoutBtn">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- post.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post to Feed</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEchxPv2sx_Ou9rgZGC63cNjy71fGEm4M",
+      authDomain: "closetcue.firebaseapp.com",
+      projectId: "closetcue",
+      storageBucket: "closetcue.appspot.com",
+      messagingSenderId: "580306676777",
+      appId: "1:580306676777:web:a27b271200f3bd78f5c038"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+  </script>
+</head>
+<body>
+  <nav id="topNav">
+    <div class="nav-container">
+      <div class="logo">Closet Cue</div>
+      <ul class="nav-links">
+        <li><a href="wardrobe.html">Wardrobe</a></li>
+        <li><a href="feed.html">Feed</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="post.html">Post</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    <h2>Create a Post ✍️</h2>
+
+    <div id="savedLooksContainer"></div>
+
+    <textarea id="captionInput" placeholder="Write your caption here..."></textarea>
+    <button id="postBtn">Post to Feed</button>
+  </div>
+
+  <script>
+    let selectedLook = null;
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("You must be logged in to post.");
+        window.location.href = "index.html";
+      } else {
+        db.collection("users").doc(user.uid).collection("savedLooks").get()
+          .then(snapshot => {
+            const container = document.getElementById("savedLooksContainer");
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              const div = document.createElement("div");
+              div.className = "saved-look";
+              div.style.cursor = "pointer";
+              div.innerHTML = `<p>Look ${doc.id}</p>`;
+
+              const imagesDiv = document.createElement("div");
+              imagesDiv.style.display = "flex";
+              imagesDiv.style.gap = "10px";
+              data.layers.forEach(url => {
+                const img = document.createElement("img");
+                img.src = url;
+                img.style.width = "80px";
+                img.style.borderRadius = "8px";
+                imagesDiv.appendChild(img);
+              });
+
+              div.appendChild(imagesDiv);
+              div.addEventListener("click", () => {
+                document.querySelectorAll(".saved-look").forEach(d => d.style.border = "1px solid #ddd");
+                div.style.border = "2px solid #2980b9";
+                selectedLook = data.layers;
+              });
+              container.appendChild(div);
+            });
+          });
+      }
+    });
+
+    document.getElementById('postBtn').addEventListener('click', () => {
+      const caption = document.getElementById('captionInput').value.trim();
+      if (!caption || !selectedLook) {
+        alert('Please select a look and write a caption.');
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (user) {
+        db.collection('posts').add({
+          userId: user.uid,
+          userName: user.displayName || user.email,
+          timestamp: new Date(),
+          caption: caption,
+          layers: selectedLook
+        }).then(() => {
+          alert('Post uploaded!');
+          window.location.href = 'feed.html';
+        });
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      auth.signOut().then(() => window.location.href = "index.html");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<nav id="topNav">
+  <div class="nav-container">
+    <div class="logo">Closet Cue</div>
+    <ul class="nav-links">
+      <li><a href="wardrobe.html">Wardrobe</a></li>
+      <li><a href="feed.html">Feed</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="post.html">Post</a></li>
+      <li><a href="#" id="logoutBtn">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- feed.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Closet Cue Feed</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEchxPv2sx_Ou9rgZGC63cNjy71fGEm4M",
+      authDomain: "closetcue.firebaseapp.com",
+      projectId: "closetcue",
+      storageBucket: "closetcue.appspot.com",
+      messagingSenderId: "580306676777",
+      appId: "1:580306676777:web:a27b271200f3bd78f5c038"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+  </script>
+</head>
+<body>
+  <nav id="topNav">
+    <div class="nav-container">
+      <div class="logo">Closet Cue</div>
+      <ul class="nav-links">
+        <li><a href="wardrobe.html">Wardrobe</a></li>
+        <li><a href="feed.html">Feed</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="post.html">Post</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    <h2>🌟 Outfit Feed</h2>
+    <div id="feedGrid" class="feed-grid"></div>
+  </div>
+
+  <script>
+    const feedGrid = document.getElementById('feedGrid');
+
+    db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      feedGrid.innerHTML = "";
+      snapshot.forEach(doc => {
+        const post = doc.data();
+
+        const card = document.createElement("div");
+        card.className = "saved-look";
+
+        const info = document.createElement("div");
+        info.innerHTML = `<strong>${post.userName}</strong><br><small>${new Date(post.timestamp.toDate()).toLocaleString()}</small><p>${post.caption}</p>`;
+
+        const imagesDiv = document.createElement("div");
+        imagesDiv.style.display = "flex";
+        imagesDiv.style.gap = "10px";
+        post.layers.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.style.width = "80px";
+          img.style.borderRadius = "8px";
+          imagesDiv.appendChild(img);
+        });
+
+        card.appendChild(info);
+        card.appendChild(imagesDiv);
+        feedGrid.appendChild(card);
+      });
+    });
+
+    // Logout handler
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      auth.signOut().then(() => window.location.href = "index.html");
+    });
+  </script>
+</body>
+</html>
