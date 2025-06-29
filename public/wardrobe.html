@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Closet Cue</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/main.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSy" + "AEchxPv2sx_" + "Ou9rgZGC63cNjy71fGEm4M",
+      authDomain: "closetcue.firebaseapp.com",
+      projectId: "closetcue",
+      storageBucket: "closetcue.appspot.com",
+      messagingSenderId: "580306676777",
+      appId: "1:580306676777:web:a27b271200f3bd78f5c038"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav id="topNav">
+    <div class="nav-container">
+      <div class="logo">Closet Cue</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="wardrobe.html">Wardrobe</a></li>
+        <li><a href="feed.html">Feed</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <h1>Closet Cue 👕👖🧥</h1>
+
+  <div class="upload-section">
+    <div>
+      <h3>👕 Upload Shirts:</h3>
+      <input type="file" id="shirtInput" accept="image/*" multiple />
+      <div id="shirtList"></div>
+    </div>
+    <div>
+      <h3>👖 Upload Pants:</h3>
+      <input type="file" id="pantInput" accept="image/*" multiple />
+      <div id="pantList"></div>
+    </div>
+    <div>
+      <h3>🧥 Upload Jackets:</h3>
+      <input type="file" id="jacketInput" accept="image/*" multiple />
+      <div id="jacketList"></div>
+    </div>
+    <div>
+      <h3>👚 Upload Innerwear:</h3>
+      <input type="file" id="innerwearInput" accept="image/*" multiple />
+      <div id="innerwearList"></div>
+    </div>
+    <div>
+      <h3>🧣 Upload Accessories:</h3>
+      <input type="file" id="accessoryInput" accept="image/*" multiple />
+      <div id="accessoryList"></div>
+    </div>
+  </div>
+
+  <h2>✨ Outfit Combos:</h2>
+  <div id="layerSelectors" style="margin-bottom: 15px;">
+    <label><input type="checkbox" data-layer="shirts" checked /> Shirts</label>
+    <label><input type="checkbox" data-layer="pants" checked /> Pants</label>
+    <label><input type="checkbox" data-layer="jackets" /> Jackets</label>
+    <label><input type="checkbox" data-layer="innerwear" /> Innerwear</label>
+    <label><input type="checkbox" data-layer="accessories" /> Accessories</label>
+  </div>
+  <div id="outfitGrid"></div>
+
+  <h2>⭐ Saved Looks:</h2>
+  <input type="text" id="searchInput" placeholder="Search looks..." />
+  <div id="savedLooksGrid"></div>
+
+  <h2>🗓 Outfit Calendar</h2>
+  <div id="calendar"></div>
+
+  <!-- Calendar Modal -->
+  <div id="eventModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>📅 Schedule Outfit</h3>
+      <label for="eventTitle">Choose Look:</label>
+      <select id="eventTitle"></select>
+
+      <label for="eventColor">Color:</label>
+      <input type="color" id="eventColor" value="#4caf8f" />
+
+      <button id="saveEventBtn">Save Event</button>
+      <button id="cancelEventBtn">Cancel</button>
+    </div>
+  </div>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
