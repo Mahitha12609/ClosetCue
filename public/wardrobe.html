@@ -13,15 +13,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSy" + "AEchxPv2sx_" + "Ou9rgZGC63cNjy71fGEm4M",
-      authDomain: "closetcue.firebaseapp.com",
-      projectId: "closetcue",
-      storageBucket: "closetcue.appspot.com",
-      messagingSenderId: "580306676777",
-      appId: "1:580306676777:web:a27b271200f3bd78f5c038"
-    };
+ <script src="firebaseConfig.js"></script>
+
     firebase.initializeApp(firebaseConfig);
   </script>
 </head>
@@ -44,32 +37,55 @@
   <h1>Closet Cue 👕👖🧥</h1>
 
   <div class="upload-section">
-    <div>
-      <h3>👕 Upload Shirts:</h3>
-      <input type="file" id="shirtInput" accept="image/*" multiple />
-      <div id="shirtList"></div>
-    </div>
-    <div>
-      <h3>👖 Upload Pants:</h3>
-      <input type="file" id="pantInput" accept="image/*" multiple />
-      <div id="pantList"></div>
-    </div>
-    <div>
-      <h3>🧥 Upload Jackets:</h3>
-      <input type="file" id="jacketInput" accept="image/*" multiple />
-      <div id="jacketList"></div>
-    </div>
-    <div>
-      <h3>👚 Upload Innerwear:</h3>
-      <input type="file" id="innerwearInput" accept="image/*" multiple />
-      <div id="innerwearList"></div>
-    </div>
-    <div>
-      <h3>🧣 Upload Accessories:</h3>
-      <input type="file" id="accessoryInput" accept="image/*" multiple />
-      <div id="accessoryList"></div>
-    </div>
+  <div>
+    <h3>👕 Upload Shirts:</h3>
+    <input type="file" id="shirtInput" accept="image/*" multiple />
+    <select id="shirtDropdown">
+      <option value="">-- Select local shirt --</option>
+      <option value="images/shirt1.png">Shirt 1</option>
+      <option value="images/shirt2.png">Shirt 2</option>
+    </select>
+    <div id="shirtList"></div>
   </div>
+
+  <div>
+    <h3>👖 Upload Pants:</h3>
+    <input type="file" id="pantInput" accept="image/*" multiple />
+    <select id="pantDropdown">
+      <option value="">-- Select local pant --</option>
+      <option value="images/pant1.png">Pant 1</option>
+      <option value="images/pant2.png">Pant 2</option>
+    </select>
+    <div id="pantList"></div>
+  </div>
+
+  <div>
+    <h3>🧥 Upload Jackets:</h3>
+    <input type="file" id="jacketInput" accept="image/*" multiple />
+    <select id="jacketDropdown">
+      <option value="">-- Select local jacket --</option>
+      <option value="images/jacket.png">Jacket</option>
+    </select>
+    <div id="jacketList"></div>
+  </div>
+
+  <div>
+    <h3>👚 Upload Innerwear:</h3>
+    <input type="file" id="innerwearInput" accept="image/*" multiple />
+    <div id="innerwearList"></div>
+  </div>
+
+  <div>
+    <h3>🧣 Upload Accessories:</h3>
+    <input type="file" id="accessoryInput" accept="image/*" multiple />
+    <select id="accessoryDropdown">
+      <option value="">-- Select local accessory --</option>
+      <option value="images/shoes.png">Shoes</option>
+    </select>
+    <div id="accessoryList"></div>
+  </div>
+</div>
+
 
   <h2>✨ Outfit Combos:</h2>
   <div id="layerSelectors" style="margin-bottom: 15px;">

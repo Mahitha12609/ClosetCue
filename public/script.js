@@ -284,6 +284,17 @@ function showEventModalForLook(lookTitle) {
     displayAllLayers();
     createOutfits();
   });
+  // 🟩 Simulate upload from dropdown for shirts
+document.getElementById('shirtDropdown')?.addEventListener('change', e => {
+  const selectedUrl = e.target.value;
+  if (!selectedUrl) return;
+  shirts.push({ url: selectedUrl, isClean: true, isIncluded: true });
+  saveWardrobe();
+  displayAllLayers();
+  createOutfits();
+  e.target.selectedIndex = 0; // Reset dropdown
+});
+
 
   pantInput?.addEventListener('change', async e => {
     for (let file of e.target.files) {
@@ -294,6 +305,15 @@ function showEventModalForLook(lookTitle) {
     displayAllLayers();
     createOutfits();
   });
+  document.getElementById('pantDropdown')?.addEventListener('change', e => {
+  const selectedUrl = e.target.value;
+  if (!selectedUrl) return;
+  pants.push({ url: selectedUrl, isClean: true, isIncluded: true });
+  saveWardrobe();
+  displayAllLayers();
+  createOutfits();
+  e.target.selectedIndex = 0;
+});
 
   jacketInput?.addEventListener('change', async e => {
     for (let file of e.target.files) {
@@ -304,6 +324,15 @@ function showEventModalForLook(lookTitle) {
     displayAllLayers();
     createOutfits();
   });
+document.getElementById('jacketDropdown')?.addEventListener('change', e => {
+  const selectedUrl = e.target.value;
+  if (!selectedUrl) return;
+  jackets.push({ url: selectedUrl, isClean: true, isIncluded: true });
+  saveWardrobe();
+  displayAllLayers();
+  createOutfits();
+  e.target.selectedIndex = 0;
+});
 
   innerwearInput?.addEventListener('change', async e => {
     for (let file of e.target.files) {
@@ -324,7 +353,15 @@ function showEventModalForLook(lookTitle) {
     displayAllLayers();
     createOutfits();
   });
-
+document.getElementById('accessoryDropdown')?.addEventListener('change', e => {
+  const selectedUrl = e.target.value;
+  if (!selectedUrl) return;
+  accessories.push({ url: selectedUrl, isClean: true, isIncluded: true });
+  saveWardrobe();
+  displayAllLayers();
+  createOutfits();
+  e.target.selectedIndex = 0;
+});
   searchInput?.addEventListener('input', renderSavedLooks);
 
   toggleBtn?.addEventListener('click', () => {

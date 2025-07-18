@@ -223,3 +223,30 @@ img:hover {
   margin-top: 20px;
 }
 
+.profile {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.profile-card {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.profile-actions button {
+  margin: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.profile-actions button:hover {
+  background-color: #388e3c;
+}

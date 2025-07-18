@@ -1,34 +1,71 @@
-<nav id="topNav">
-  <div class="nav-container">
-    <div class="logo">Closet Cue</div>
-    <ul class="nav-links">
-      <li><a href="wardrobe.html">Wardrobe</a></li>
-      <li><a href="feed.html">Feed</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="post.html">Post</a></li>
-      <li><a href="#" id="logoutBtn">Logout</a></li>
-    </ul>
-  </div>
-</nav>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Closet Cue - Profile</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebaseConfig.js"></script> <!-- ✅ config pulled from separate file -->
 </head>
+
 <body>
-  <nav id="topNav">...</nav>
-  <div class="page-container">
-    <h2>🙋 Your Profile</h2>
-    <p><b>Email:</b> <span id="userEmail"></span></p>
-    <p><b>Saved Looks:</b> (coming soon)</p>
+  <!-- Navigation -->
+  <nav id="topNav">
+    <div class="nav-container">
+      <div class="logo">Closet Cue</div>
+      <ul class="nav-links">
+        <li><a href="wardrobe.html">Wardrobe</a></li>
+        <li><a href="feed.html">Feed</a></li>
+        <li><a href="profile.html" class="active">Profile</a></li>
+        <li><a href="post.html">Post</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="page-container profile">
+    <h2>🙋 Welcome Back!</h2>
+
+    <div class="profile-card">
+      <p><b>Email:</b> <span id="userEmail">Loading...</span></p>
+      <p><b>Saved Looks:</b> <span id="lookCount">Fetching...</span></p>
+    </div>
+
+    <div class="profile-actions">
+      <button onclick="window.location.href='wardrobe.html'">Go to Wardrobe</button>
+      <button id="logoutBtnSecondary">Logout</button>
+    </div>
   </div>
 
+  <!-- JS Logic -->
   <script>
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) document.getElementById('userEmail').textContent = user.email;
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(async user => {
+      if (user) {
+        document.getElementById('userEmail').textContent = user.email;
+
+        const doc = await db.collection("users").doc(user.uid).get();
+        const data = doc.exists ? doc.data() : {};
+        const count = data.savedLooks ? data.savedLooks.length : 0;
+        document.getElementById('lookCount').textContent = count;
+      } else {
+        window.location.href = "index.html";
+      }
     });
+
+    const logoutHandler = () => {
+      auth.signOut().then(() => window.location.href = "index.html");
+    };
+
+    document.getElementById("logoutBtn")?.addEventListener("click", logoutHandler);
+    document.getElementById("logoutBtnSecondary")?.addEventListener("click", logoutHandler);
   </script>
 </body>
 </html>
